@@ -80,12 +80,20 @@ function getApi(lat, lon) {
         ];
 
         localStorage.setItem("forecast", JSON.stringify(forecastWeek));
-
-        
-
-                
+      
     });
 }
 
 getApi(43.79, -79.20);
 
+
+
+
+$("#btn").click(function(){
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode( { 'address': $("#search-bar").value}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            console.log("location : " + results[0].geometry.location.lat() + " " +results[0].geometry.location.lng());
+        }
+    });
+});
