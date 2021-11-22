@@ -8,7 +8,6 @@ function getApi(lat, lon) {
     .then(function (data) {
         
         console.log(data);
-        console.log(data.daily[0].dt);
 
         console.log();
 
@@ -19,69 +18,17 @@ function getApi(lat, lon) {
             forecastWeek[i] = {
                 "day": String(new Date(data.daily[i].dt * 1000)).slice(0,3),
                 "date": new Date(data.daily[i].dt * 1000),
-                "icon": data.daily[i].weather.icon,
-                "tempMin": data.daily[i].temp.min,
-                "tempMax": data.daily[i].temp.max,
+                "icon": data.daily[i].weather[0].icon,
+                "temp": Math.round(((data.daily[i].temp.min + data.daily[i].temp.max)/2) * 10) / 10,
                 "wind": data.daily[i].wind_speed,
                 "humidity": data.daily[i].humidity,
                 "uvindex": data.daily[i].uvi
             }
 
         }
-            /*{
-                "day": String(new Date(data.daily[1].dt * 1000)).slice(0,3),
-                "date": data.daily[1].dt,
-                "icon": data.daily[1].weather.icon,
-                "tempMin": data.daily[1].temp.min,
-                "tempMax": data.daily[1].temp.max,
-                "wind": data.daily[1].wind_speed,
-                "humidity": data.daily[1].humidity,
-                "uvindex": data.daily[1].uvi
-            },
-            {
-                "day": String(new Date(data.daily[2].dt * 1000)).slice(0,3),
-                "date": data.daily[2].dt,
-                "icon": data.daily[2].weather.icon,
-                "tempMin": data.daily[2].temp.min,
-                "tempMax": data.daily[2].temp.max,
-                "wind": data.daily[2].wind_speed,
-                "humidity": data.daily[2].humidity,
-                "uvindex": data.daily[2].uvi
-            },
-            {
-                "day": String(new Date(data.daily[3].dt * 1000)).slice(0,3),
-                "date": data.daily[3].dt,
-                "icon": data.daily[3].weather.icon,
-                "tempMin": data.daily[3].temp.min,
-                "tempMax": data.daily[3].temp.max,
-                "wind": data.daily[3].wind_speed,
-                "humidity": data.daily[3].humidity,
-                "uvindex": data.daily[3].uvi
-            },
-            {
-                "day": String(new Date(data.daily[4].dt * 1000)).slice(0,3),
-                "date": data.daily[4].dt,
-                "icon": data.daily[4].weather.icon,
-                "tempMin": data.daily[4].temp.min,
-                "tempMax": data.daily[4].temp.max,
-                "wind": data.daily[4].wind_speed,
-                "humidity": data.daily[4].humidity,
-                "uvindex": data.daily[4].uvi
-            },
-            {
-                "day": String(new Date(data.daily[5].dt * 1000)).slice(0,3),
-                "date": data.daily[5].dt,
-                "icon": data.daily[5].weather.icon,
-                "tempMin": data.daily[5].temp.min,
-                "tempMax": data.daily[5].temp.max,
-                "wind": data.daily[5].wind_speed,
-                "humidity": data.daily[5].humidity,
-                "uvindex": data.daily[5].uvi
-            }*/
-        
 
         localStorage.setItem("forecastWeek", JSON.stringify(forecastWeek));
-      
+
     });
 }
 
@@ -105,17 +52,20 @@ function appendData() {
     for (var i = 0; i < forecastWeek.Length; i++) {
 
         let cityName = "<City Name>";
-        let dateEl = new Date(forecastWeek[i].date * 1000);
-        let tempEl = "Avg. Temp: " + (Math.round(((forecastWeek[i].tempMax + forecastWeek[i].tempMin)/2) * 10) / 10) + "° F";
+        let dateEl = "(" + forecastWeek[i].date.getDate() + "/" + (forecastWeek[i].date.getMonth()+1) + "/" + forecastWeek[i].date.getFullYear() + ")";
+        let cityDateTitle = cityName + " " + dateEl;
+        let tempEl = "Avg. Temp: " + forecastWeek[i].temp + "° F";
         let windEl = "Wind: " + forecastWeek[i].wind + " MPH";
         let humidEl = "Humidity: " + forecastWeek[i].humidity + "%";
         let uviEl = "UV Index: " + forecastWeek[i].uvindex;
+        let iconURL = "http://openweathermap.org/img/wn/" + forecastWeek[i].icon + "@2x.png"
 
-        $(".city").append();
-        $(".current-temp").append(tempEl);
-        $(".current-wind").append(windEl);
-        $(".current-humid").append(humidEl);
-        $(".current-uvi").append(uviEl);
+        $(".title-" + i).append(cityDateTitle);
+        $(".icon-image-" + i).attr("src", iconURL);
+        $(".temp-" + i).append(tempEl);
+        $(".wind-" + i).append(windEl);
+        $(".humid-" + i).append(humidEl);
+        $(".uvi-" + i).append(uviEl);
 
     }
 
@@ -125,3 +75,4 @@ function appendData() {
 
 
 appendData();
+
