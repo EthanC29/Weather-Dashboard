@@ -1,16 +1,23 @@
+* {
+    font-family: Helvetica, Arial, sans-serif;
+}
+
 header {
     background-image: linear-gradient(to right, mediumpurple, midnightblue);
     color: white;
     width: 100%;
-    height: 50px;
+    height: 60px;
     text-align: center;
-    vertical-align: middle;
+    padding-top: 5px;
+}
+
+header h1 {
+    font-weight: 800;
 }
 
 main {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
+    flex-flow: row nowrap;
     width: 100%;
 }
 
@@ -22,10 +29,16 @@ main {
     padding: 20px;
 }
 
+label {
+    font-weight: bold;
+    font-size: xx-large;
+}
+
 input {
     border-radius: 5px;
     width: 100%;
-    height: 40px;
+    height: 50px;
+    font-size: x-large;
 }
 
 .btn {
@@ -34,13 +47,30 @@ input {
     font-weight: bolder;
     border-radius: 5px;
     width: 100%;
+    margin: 10px 0;
+}
+
+.btn:hover {
+    background-image: linear-gradient(to right, rgb(124, 94, 185), rgb(19, 19, 83));
+    color: white;
+}
+
+#search-history {
+    border-top: solid 3px black;
+    width: 100%;
+}
+
+.search {
+    background-color: gainsboro;
+    color: black;
+    border-radius: 5px;
+    width: 100%;
     margin-top: 10px;
 }
 
 .forecast-section {
     display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
+    flex-flow: column nowrap;
     margin: 0;
     width: 75%;
     padding: 20px;
@@ -48,14 +78,26 @@ input {
 
 .current-conditions {
     border: solid 2px black;
+    padding: 30px 15px;
+    margin-bottom: 20px;
 }
 
 .future-conditions {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
+    flex-flow: row wrap;
 }
 
 .day {
-    background-color: steelblue;
+    background-color: darkslateblue;
+    color: white;
+    padding: 20px 10px;
+    margin: 10px;
+}
+
+.title {
+    font-weight: bolder;
+}
+
+p {
+    font-weight: bold;
 }
