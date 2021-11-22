@@ -1,3 +1,5 @@
+
+
 function getApi(lat, lon) {
     var requestUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&exclude=minutely,hourly&appid=ce475acf48140382619c0453c95cfcf8';
 
@@ -34,6 +36,22 @@ function getApi(lat, lon) {
 
 getApi(43.79, -79.20);
 
+
+
+if (localStorage.getItem("searchHistory")) {
+    let searchHistory = localStorage.getItem("searchHistory");
+} else {
+    let searchHistory = [];
+}
+
+
+$(".btn").bind("click", clickHandler);
+function clickHandler() {
+    if ($("#search-bar").val()) {
+        searchHistory.unshift($("#search-bar").val());
+        localStorage.setItem("searchHistory", searchHistory)
+    }
+}
 /*
 $("#btn").click(function(){
     var geocoder = new google.maps.Geocoder();
@@ -60,12 +78,12 @@ function appendData() {
         let uviEl = "UV Index: " + forecastWeek[i].uvindex;
         let iconURL = "http://openweathermap.org/img/wn/" + forecastWeek[i].icon + "@2x.png"
 
-        $(".title-" + i).append(cityDateTitle);
-        $(".icon-image-" + i).attr("src", iconURL);
-        $(".temp-" + i).append(tempEl);
-        $(".wind-" + i).append(windEl);
-        $(".humid-" + i).append(humidEl);
-        $(".uvi-" + i).append(uviEl);
+        $(".title-"+i).append(cityDateTitle);
+        $(".icon-image-"+i).attr("src", iconURL);
+        $(".temp-"+i).append(tempEl);
+        $(".wind-"+i).append(windEl);
+        $(".humid-"+i).append(humidEl);
+        $(".uvi-"+i).append(uviEl);
 
     }
 

@@ -35,77 +35,82 @@
     <body>
 
         <header>
-            Weather Dashboard
+            <h1>Weather Dashboard</h1>
         </header>
 
-        <section class="search-section">
-            <label for="#search-bar">Search for a City:</label>
-            <input class="search-bar" id="search-bar">
-            <button type="button" class="btn" id="btn">Search</button>
-        </section>
+        <main>
 
-        <section class="forecast-section">
-            <div class="current-conditions">
+            <section class="search-section">
+                <label for="#search-bar">Search for a City:</label>
+                <input class="search-bar" id="search-bar">
+                <button type="button" class="btn" id="btn">Search</button>
+                <div class="search-history"></div>
+            </section>
 
-                <h1 class="title-0"></h1><image class="icon-image-0" />
-                <p class="temp-0"></p>
-                <p class="wind-0"></p>
-                <p class="humid-0"></p>
-                <p class="uvi-0"></p>
+            <section class="forecast-section">
+                <div class="current-conditions">
 
-            </div>
-
-            <div class="5-day-forecast">
-
-                <div class="day day-1">
-
-                    <h1 class="title-1"></h1><image class="icon-image-1" />
-                    <p class="temp-1"></p>
-                    <p class="wind-1"></p>
-                    <p class="humid-1"></p>
-                    <p class="uvi-1"></p>
-
-                </div>
-                <div class="day day-2">
-
-                    <h1 class="title-2"></h1><image class="icon-image-2" />
-                    <p class="temp-2"></p>
-                    <p class="wind-2"></p>
-                    <p class="humid-2"></p>
-                    <p class="uvi-2"></p>
-
-                </div>
-                <div class="day day-3">
-
-                    <h1 class="title-3"></h1><image class="icon-image-3" />
-                    <p class="temp-3"></p>
-                    <p class="wind-3"></p>
-                    <p class="humid-3"></p>
-                    <p class="uvi-3"></p>
-
-                </div>
-                <div class="day day-4">
-
-                    <h1 class="title-4"></h1><image class="icon-image-4" />
-                    <p class="temp-4"></p>
-                    <p class="wind-4"></p>
-                    <p class="humid-4"></p>
-                    <p class="uvi-4"></p>
-
-                </div>
-                <div class="day day-5">
-
-                    <h1 class="title-5"></h1><image class="icon-image-5" />
-                    <p class="temp-5"></p>
-                    <p class="wind-5"></p>
-                    <p class="humid-5"></p>
-                    <p class="uvi-5"></p>
+                    <h2 class="title title-0"></h2><image class="icon-image icon-image-0" />
+                    <p class="temp temp-0"></p>
+                    <p class="wind wind-0"></p>
+                    <p class="humid humid-0"></p>
+                    <p class="uvi uvi-0"></p>
 
                 </div>
 
-            </div>
-        </section>
+                <div class="future-conditions">
 
+                    <div class="day day-1">
+
+                        <h3 class="title title-1"></h3><image class="icon-image icon-image-1" />
+                        <p class="temp temp-1"></p>
+                        <p class="wind wind-1"></p>
+                        <p class="humid humid-1"></p>
+                        <p class="uvi uvi-1"></p>
+
+                    </div>
+                    <div class="day day-2">
+
+                        <h3 class="title title-2"></h3><image class="icon-image icon-image-2" />
+                        <p class="temp temp-2"></p>
+                        <p class="wind wind-2"></p>
+                        <p class="humid humid-2"></p>
+                        <p class="uvi uvi-2"></p>
+
+                    </div>
+                    <div class="day day-3">
+
+                        <h3 class="title title-3"></h3><image class="icon-image icon-image-3" />
+                        <p class="temp temp-3"></p>
+                        <p class="wind wind-3"></p>
+                        <p class="humid humid-3"></p>
+                        <p class="uvi uvi-3"></p>
+
+                    </div>
+                    <div class="day day-4">
+
+                        <h3 class="title title-4"></h3><image class="icon-image icon-image-4" />
+                        <p class="temp temp-4"></p>
+                        <p class="wind wind-4"></p>
+                        <p class="humid humid-4"></p>
+                        <p class="uvi uvi-4"></p>
+
+                    </div>
+                    <div class="day day-5">
+
+                        <h3 class="title title-5"></h3><image class="icon-image icon-image-5" />
+                        <p class="temp temp-5"></p>
+                        <p class="wind wind-5"></p>
+                        <p class="humid humid-5"></p>
+                        <p class="uvi uvi-5"></p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
 
 
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
