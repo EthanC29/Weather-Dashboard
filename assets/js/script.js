@@ -102,6 +102,11 @@ $(document).ready(function () {
 
     }
 
+
+    
+    // This function just sends the city name to get the latitude and longitude of said city to input in the other request
+    // I know it is concoluted but I tried switching the original requestUrl with this one that uses city name and it broke the code
+    // It ended up breaking so badly that I had to delete everything and re-clone from github
     function getLatLon(cityName) {
         var requestUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&appid=ce475acf48140382619c0453c95cfcf8';
 
@@ -134,7 +139,7 @@ $(document).ready(function () {
     }
 
     $("#search-history").append(loopSearchTerm);
-    
+    */
 
     $(".btn").bind("click", clickHandler);
     function clickHandler() {
@@ -144,7 +149,7 @@ $(document).ready(function () {
             localStorage.setItem("searchHistory", searchHistory)
         }
     }
-    */
+    
 
 });
 
