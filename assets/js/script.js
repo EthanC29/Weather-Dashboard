@@ -1,5 +1,3 @@
-
-
 $(document).ready(function () {
 
     let forecastWeek = [];
@@ -8,7 +6,7 @@ $(document).ready(function () {
 
 
 
-    function appendData() {
+    function appendData(cityName, countryCode) {
 
 
 
@@ -26,7 +24,7 @@ $(document).ready(function () {
                 singleDayData.timestampDate = new Date(singleDayData.timestampDate * 1000);
 
                 singleHtml = `
-                <h2 class="title" id="current-title">current-title</h2><image class="icon-image" id="icon-image-0" />
+                <h2 class="title" id="current-title">` + cityName + `, ` + countryCode + ` (` + (singleDayData.timestampDate.getMonth()+1) + `/` + singleDayData.timestampDate.getDate() + `/` + singleDayData.timestampDate.getFullYear() + `)</h2><img class="icon-image main" id="icon-image-` + i + `" src="http://openweathermap.org/img/wn/` + singleDayData.icon + `@2x.png" />
                 <p class="temp" id="temp-` + i + `">Avg. Temp:  ` + singleDayData.temp + `° F</p>
                 <p class="wind" id="wind-` + i + `">Wind:  ` + singleDayData.wind + ` MPH</p>
                 <p class="humid" id="humid-` + i + `">Humidity:  ` + singleDayData.humidity + `%</p>
@@ -34,7 +32,7 @@ $(document).ready(function () {
 
                 $('.current-conditions').append(singleHtml);
 
-            } else if (i >= 1) {
+            } else if (i >= 0) {
 
                 var singleDayData = forecastWeek[i];
 
@@ -45,7 +43,7 @@ $(document).ready(function () {
                 loopHtml = `
                 <div class="col day" id="day-` + i + `">
                     <h3 class="title" id="title-` + i + `">` + (singleDayData.timestampDate.getMonth()+1) + `/` + singleDayData.timestampDate.getDate() + `/` + singleDayData.timestampDate.getFullYear() + `</h3>
-                    <image class="icon-image" id="icon-image-` + i + `" src="http://openweathermap.org/img/wn/` + singleDayData.icon + `@2x.png" />
+                    <img class="icon-image" id="icon-image-` + i + `" src="http://openweathermap.org/img/wn/` + singleDayData.icon + `.png" />
                     <p class="p temp" id="temp-` + i + `">Avg. Temp:  ` + singleDayData.temp + `° F</p>
                     <p class="p wind" id="wind-` + i + `">Wind:  ` + singleDayData.wind + ` MPH</p>
                     <p class="p humid" id="humid-` + i + `">Humidity:  ` + singleDayData.humidity + `%</p>
@@ -66,7 +64,7 @@ $(document).ready(function () {
 
 
 
-    function getApi(lat, lon) {
+    function getApi(lat, lon, city, country) {
         var requestUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&exclude=minutely,hourly&appid=ce475acf48140382619c0453c95cfcf8';
 
         fetch(requestUrl)
@@ -91,12 +89,37 @@ $(document).ready(function () {
         
             }
         
-            appendData();
+            var cityName = city;
+            var countryCode = country;
+
+            appendData(cityName, countryCode);
 
         });
 
         
 
+        
+
+    }
+
+    function getLatLon(cityName) {
+        var requestUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&appid=ce475acf48140382619c0453c95cfcf8';
+
+        fetch(requestUrl)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+
+            var latitude = data.coord.lat;
+            var longitude = data.coord.lon;
+            console.log(data);
+            var city = data.name;
+            var country = data.sys.country;
+
+            getApi(latitude, longitude, city, country);
+
+        });
     }
 
     
@@ -111,33 +134,21 @@ $(document).ready(function () {
     }
 
     $("#search-history").append(loopSearchTerm);
+    
 
     $(".btn").bind("click", clickHandler);
     function clickHandler() {
-        if ($("#search-bar").val()) {
-            searchHistory.unshift($("#search-bar").val());
+        var searchTerm = $("#search-bar").value;
+        if (searchTerm) {
+            searchHistory.unshift(searchTerm);
             localStorage.setItem("searchHistory", searchHistory)
         }
     }
     */
 
-
-
-
-    
-    
-    getApi(43.79, -79.20);
-
 });
 
-$("#btn").click(function(){
-    var geocoder = new google.maps.Geocoder();
-    geocoder.geocode( { 'address': $("#search-bar").value}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-            console.log("location : " + results[0].geometry.location.lat() + " " +results[0].geometry.location.lng());
-        }
-    });
-});
+
 
 
 

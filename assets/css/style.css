@@ -98,6 +98,12 @@ input {
     font-weight: bolder;
 }
 
+img {
+    background-color: rgb(160, 140, 240);
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
 p {
     font-weight: bold;
 }
