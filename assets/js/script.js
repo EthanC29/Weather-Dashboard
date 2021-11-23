@@ -1,8 +1,70 @@
+
+
 $(document).ready(function () {
 
     let forecastWeek = [];
     let searchHistory = [];
     let loopSearchTerm = "";
+
+
+
+    function appendData() {
+
+
+
+        let singleHtml = "";
+        let loopHtml = "";
+        
+        for(let i = 0; i < forecastWeek.length; i++){
+
+            if (i === 0) {
+
+                var singleDayData = forecastWeek[i];
+
+                console.log(singleDayData);
+
+                singleDayData.timestampDate = new Date(singleDayData.timestampDate * 1000);
+
+                singleHtml = `
+                <h2 class="title" id="current-title">current-title</h2><image class="icon-image" id="icon-image-0" />
+                <p class="temp" id="temp-` + i + `">Avg. Temp:  ` + singleDayData.temp + `° F</p>
+                <p class="wind" id="wind-` + i + `">Wind:  ` + singleDayData.wind + ` MPH</p>
+                <p class="humid" id="humid-` + i + `">Humidity:  ` + singleDayData.humidity + `%</p>
+                <p class="uvi" id="uvi-` + i + `">UV Index:  ` + singleDayData.uvindex + `</p>`;
+
+                $('.current-conditions').append(singleHtml);
+
+            } else if (i >= 1) {
+
+                var singleDayData = forecastWeek[i];
+
+                console.log(singleDayData);
+
+                singleDayData.timestampDate = new Date(singleDayData.timestampDate * 1000);
+
+                loopHtml = `
+                <div class="col day" id="day-` + i + `">
+                    <h3 class="title" id="title-` + i + `">` + (singleDayData.timestampDate.getMonth()+1) + `/` + singleDayData.timestampDate.getDate() + `/` + singleDayData.timestampDate.getFullYear() + `</h3>
+                    <image class="icon-image" id="icon-image-` + i + `" src="http://openweathermap.org/img/wn/` + singleDayData.icon + `@2x.png" />
+                    <p class="p temp" id="temp-` + i + `">Avg. Temp:  ` + singleDayData.temp + `° F</p>
+                    <p class="p wind" id="wind-` + i + `">Wind:  ` + singleDayData.wind + ` MPH</p>
+                    <p class="p humid" id="humid-` + i + `">Humidity:  ` + singleDayData.humidity + `%</p>
+                </div>`;
+
+                $('.future-conditions').append(loopHtml);
+
+            }
+
+            
+
+        };
+
+        
+        
+
+    }
+
+
 
     function getApi(lat, lon) {
         var requestUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&exclude=minutely,hourly&appid=ce475acf48140382619c0453c95cfcf8';
@@ -13,30 +75,31 @@ $(document).ready(function () {
         })
         .then(function (data) {
             
-            localStorage.setItem("data", JSON.stringify(data));
+            for (var i = 0; i < 6; i++) {
+
+                forecastWeek[i] = {
+                    "day": String(new Date(data.daily[i].dt * 1000)).slice(0,3),
+                    "timestampDate": data.daily[i].dt,
+                    "icon": data.daily[i].weather[0].icon,
+                    "temp": Math.round(((data.daily[i].temp.min + data.daily[i].temp.max)/2) * 10) / 10,
+                    "wind": data.daily[i].wind_speed,
+                    "humidity": data.daily[i].humidity,
+                    "uvindex": data.daily[i].uvi
+                }
+        
+        
+        
+            }
+        
+            appendData();
 
         });
-    }
 
-    let data = JSON.parse(localStorage.getItem("data"));
+        
+
+    }
 
     
-
-    for (var i = 0; i < 6; i++) {
-
-        forecastWeek[i] = {
-            "day": String(new Date(data.daily[i].dt * 1000)).slice(0,3),
-            "timestampDate": data.daily[i].dt,
-            "icon": data.daily[i].weather[0].icon,
-            "temp": Math.round(((data.daily[i].temp.min + data.daily[i].temp.max)/2) * 10) / 10,
-            "wind": data.daily[i].wind_speed,
-            "humidity": data.daily[i].humidity,
-            "uvindex": data.daily[i].uvi
-        }
-
-    }
-
-    console.log(forecastWeek);
 
     /*
     if (localStorage.getItem("searchHistory")) {
@@ -56,50 +119,26 @@ $(document).ready(function () {
             localStorage.setItem("searchHistory", searchHistory)
         }
     }
-
-
-
-
-
-    /*
-    $("#btn").click(function(){
-        var geocoder = new google.maps.Geocoder();
-        geocoder.geocode( { 'address': $("#search-bar").value}, function(results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                console.log("location : " + results[0].geometry.location.lat() + " " +results[0].geometry.location.lng());
-            }
-        });
-    });
     */
 
-    function appendData() {
-
-        let loopHtml = "";
-        let DTdate = new Date(forecastWeek[i].timestampDate * 1000);
-
-        for(let i = 1; i < forecastWeek.length; i++){
-
-            loopHtml += `
-            <div class="col day" id="day-` + i + `">
-                <h3 class="title" id="title-` + i + `">` + DTdate.getDate() + `/` + (DTdate.getMonth()+1) + `/` + DTdate.getFullYear() + `</h3>
-                <image class="icon-image" id="icon-image-` + i + `" src="http://openweathermap.org/img/wn/` + forecastWeek[i].icon + `@2x.png" />
-                <p class="p temp" id="temp-` + i + `">Avg. Temp: ` + forecastWeek[i].temp + `° F</p>
-                <p class="p wind" id="wind-` + i + `">Wind: ` + forecastWeek[i].wind + ` MPH</p>
-                <p class="p humid" id="humid-` + i + `">Humidity: ` + forecastWeek[i].humidity + `%</p>
-            </div>`;
-
-        };
-
-        $('.future-conditions').append(loopHtml);
-
-        
 
 
 
-    }
-
-    getApi(43.79, -79.20);
-    appendData();
     
+    
+    getApi(43.79, -79.20);
 
 });
+
+$("#btn").click(function(){
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode( { 'address': $("#search-bar").value}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            console.log("location : " + results[0].geometry.location.lat() + " " +results[0].geometry.location.lng());
+        }
+    });
+});
+
+
+
+
