@@ -1,6 +1,27 @@
 $(document).ready(function () {
 
     let forecastWeek = [];
+    let loopSearchTerm = "";
+
+    $(".forecast-section").attr("style", "visibility: hidden;");
+
+    //is there were searches during a previous section, display them now
+    function appendSearchHistory() {
+        let searchHistory = localStorage.getItem("searchHistory");
+        searchHistory = JSON.parse(searchHistory);
+        let loopSearchEl = "";
+
+        if (searchHistory) {
+            for (var i = 0; i < searchHistory.length; i++) {
+                loopSearchEl = `<button class="previous-search-result">` + searchHistory[i] + `</button>`
+                $("#search-history").append(loopSearchEl);
+            }
+        }
+    };
+    appendSearchHistory();
+    
+
+    
 
     function appendData(cityName, countryCode) {
 
@@ -54,10 +75,8 @@ $(document).ready(function () {
 
         };
 
-        $(".forecast-section").attr("style", "");
         $(".forecast-section").attr("style", "visibility: visible;");
         
-
     }
 
 
@@ -101,43 +120,59 @@ $(document).ready(function () {
     }
 
 
+    // saves valid search term into array in localStorage then displays it of the screen
+    function retrieveHistory(city) {
+
+        let searchHistory = localStorage.getItem("searchHistory");
+
+        if (searchHistory) {
+            searchHistory = JSON.parse(searchHistory);
+        } else {
+            searchHistory = [];
+        }
+        
+        searchHistory.unshift(city);
+        searchHistory = [...new Set(searchHistory)];
+
+        localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+
+        loopSearchEl = `<div class="previous-search-result" id="` + searchHistory[0] + `">` + searchHistory[0] + `</div>`;
+        console.log(loopSearchEl);
+        $("#search-history").prepend(loopSearchEl);
+        
+    }
+
     
     // This function just sends the city name to get the latitude and longitude of said city to input in the other request
     // I know it is concoluted but I tried switching the original requestUrl with this one that uses city name and it broke the code
     // It ended up breaking so badly that I had to delete everything and re-clone from github
     function getLatLon(cityName) {
         var requestUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&appid=ce475acf48140382619c0453c95cfcf8';
+        console.log(requestUrl);
 
         fetch(requestUrl)
         .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
+            if (response.ok) {
+                response.json().then(function (data) {
 
-            var latitude = data.coord.lat;
-            var longitude = data.coord.lon;
-            console.log(data);
-            var city = data.name;
-            var country = data.sys.country;
+                    var latitude = data.coord.lat;
+                    var longitude = data.coord.lon;
+                    console.log(data);
+                    var city = data.name;
+                    var country = data.sys.country;
 
-            getApi(latitude, longitude, city, country);
+                    
+                    retrieveHistory(city);
+                    
 
+                    getApi(latitude, longitude, city, country);
+
+                });
+            } else {
+                alert("Error: Invalid city name!");
+            }
         });
     }
-
-    
-
-    /*
-    if (localStorage.getItem("searchHistory")) {
-        searchHistory = localStorage.getItem("searchHistory");
-    }
-
-    for (var i = 0; i < searchHistory.Length; i++) {
-        loopSearchTerm += `<div class="search-term" id="search-term-` + i + `">` + searchHistory[i] + `</div>`;
-    }
-
-    $("#search-history").append(loopSearchTerm);
-    */
     
 
     
@@ -145,24 +180,23 @@ $(document).ready(function () {
 
 
 
-    $(".btn").click(function() {;
+    $(".btn").click(function() {
 
-        if (searchTerm) {
+        var searchTerm = $("#search-bar").val();
 
-            var searchHistory = localStorage.getItem("searchHistory");
-            searchHistory = JSON.parse(searchHistory);
+        getLatLon(searchTerm);
 
-            var searchTerm = $("#search-bar").val();
-
-            searchHistory.push(searchTerm);
-            localStorage.setItem("searchHistory", searchHistory);
-            console.log(searchHistory);
-
-
-            getLatLon(searchTerm);
-
-        };
     });
+
+    $('.previous-search-result').each(function () {
+        var $this = $(this);
+        $this.on("click", function () {
+            console.log($this.text());
+            var resulting = $this.text();
+            getLatLon(resulting);
+        });
+    });
+
 
 });
 

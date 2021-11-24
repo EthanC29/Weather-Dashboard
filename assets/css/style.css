@@ -23,8 +23,7 @@ main {
 
 .search-section {
     display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
+    flex-flow: column nowrap;
     width: 25%;
     padding: 20px;
 }
@@ -48,6 +47,7 @@ input {
     border-radius: 5px;
     width: 100%;
     margin: 10px 0;
+    border: none;
 }
 
 .btn:hover {
@@ -58,6 +58,25 @@ input {
 #search-history {
     border-top: solid 3px black;
     width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.previous-search-result {
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+    padding-top: 6px;
+    height: 35px;
+    border-radius: 5px;
+    background-color: mediumpurple;
+    color: white;
+    border: none;
+}
+
+.previous-search-result:hover {
+    background-color: rgb(124, 94, 185);
+    color: white;
 }
 
 .search {
