@@ -1,14 +1,11 @@
 $(document).ready(function () {
 
     let forecastWeek = [];
-    let searchHistory = [];
-    let loopSearchTerm = "";
-
-
 
     function appendData(cityName, countryCode) {
 
-
+        $(".current-conditions").empty();
+        $(".future-conditions").empty();
 
         let singleHtml = "";
         let loopHtml = "";
@@ -57,7 +54,8 @@ $(document).ready(function () {
 
         };
 
-        
+        $(".forecast-section").attr("style", "");
+        $(".forecast-section").attr("style", "visibility: visible;");
         
 
     }
@@ -140,16 +138,31 @@ $(document).ready(function () {
 
     $("#search-history").append(loopSearchTerm);
     */
-
-    $(".btn").bind("click", clickHandler);
-    function clickHandler() {
-        var searchTerm = $("#search-bar").value;
-        if (searchTerm) {
-            searchHistory.unshift(searchTerm);
-            localStorage.setItem("searchHistory", searchHistory)
-        }
-    }
     
+
+    
+    
+
+
+
+    $(".btn").click(function() {;
+
+        if (searchTerm) {
+
+            var searchHistory = localStorage.getItem("searchHistory");
+            searchHistory = JSON.parse(searchHistory);
+
+            var searchTerm = $("#search-bar").val();
+
+            searchHistory.push(searchTerm);
+            localStorage.setItem("searchHistory", searchHistory);
+            console.log(searchHistory);
+
+
+            getLatLon(searchTerm);
+
+        };
+    });
 
 });
 
