@@ -13,9 +13,9 @@ $(document).ready(function () {
 
         if (searchHistory) {
             for (var i = 0; i < searchHistory.length; i++) {
-                loopSearchEl = `<button class="previous-search-result">` + searchHistory[i] + `</button>`
-                $("#search-history").append(loopSearchEl);
+                loopSearchEl += `<button class="previous-search-result">` + searchHistory[i] + `</button>`
             }
+            $("#search-history").html(loopSearchEl);
         }
     };
     appendSearchHistory();
@@ -37,8 +37,6 @@ $(document).ready(function () {
 
                 var singleDayData = forecastWeek[i];
 
-                console.log(singleDayData);
-
                 singleDayData.timestampDate = new Date(singleDayData.timestampDate * 1000);
 
                 singleHtml = `
@@ -53,8 +51,6 @@ $(document).ready(function () {
             } else if (i >= 0) {
 
                 var singleDayData = forecastWeek[i];
-
-                console.log(singleDayData);
 
                 singleDayData.timestampDate = new Date(singleDayData.timestampDate * 1000);
 
@@ -101,9 +97,7 @@ $(document).ready(function () {
                     "humidity": data.daily[i].humidity,
                     "uvindex": data.daily[i].uvi
                 }
-        
-        
-        
+                
             }
         
             var cityName = city;
@@ -136,9 +130,9 @@ $(document).ready(function () {
 
         localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
 
-        loopSearchEl = `<div class="previous-search-result" id="` + searchHistory[0] + `">` + searchHistory[0] + `</div>`;
-        console.log(loopSearchEl);
-        $("#search-history").prepend(loopSearchEl);
+        $('div#search-history').empty();
+
+        appendSearchHistory();
         
     }
 
@@ -148,7 +142,6 @@ $(document).ready(function () {
     // It ended up breaking so badly that I had to delete everything and re-clone from github
     function getLatLon(cityName) {
         var requestUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&appid=ce475acf48140382619c0453c95cfcf8';
-        console.log(requestUrl);
 
         fetch(requestUrl)
         .then(function (response) {
@@ -157,7 +150,6 @@ $(document).ready(function () {
 
                     var latitude = data.coord.lat;
                     var longitude = data.coord.lon;
-                    console.log(data);
                     var city = data.name;
                     var country = data.sys.country;
 
@@ -191,7 +183,6 @@ $(document).ready(function () {
     $('.previous-search-result').each(function () {
         var $this = $(this);
         $this.on("click", function () {
-            console.log($this.text());
             var resulting = $this.text();
             getLatLon(resulting);
         });
