@@ -2,6 +2,7 @@
     font-family: Helvetica, Arial, sans-serif;
 }
 
+/* header */
 header {
     background-image: linear-gradient(to right, mediumpurple, midnightblue);
     color: white;
@@ -15,12 +16,14 @@ header h1 {
     font-weight: 800;
 }
 
+/* main body */
 main {
     display: flex;
     flex-flow: row nowrap;
     width: 100%;
 }
 
+/* search & input section */
 .search-section {
     display: flex;
     flex-flow: column nowrap;
@@ -59,6 +62,7 @@ input {
     color: white;
 }
 
+/* search history section */
 #search-history {
     border-top: solid 3px black;
     width: 100%;
@@ -91,6 +95,7 @@ input {
     margin-top: 10px;
 }
 
+/* current conditions */
 .forecast-section {
     display: flex;
     flex-flow: column nowrap;
@@ -112,6 +117,7 @@ input {
     border-radius: 3px;
 }
 
+/* 5-day forecast */
 .future-conditions {
     display: flex;
     flex-flow: row wrap;
@@ -128,6 +134,7 @@ input {
     font-weight: bolder;
 }
 
+/* weather icon */
 img {
     background-color: rgb(160, 140, 240);
     border-radius: 10px;
