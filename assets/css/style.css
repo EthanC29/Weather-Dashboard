@@ -40,6 +40,10 @@ input {
     font-size: x-large;
 }
 
+::placeholder {
+    color: lightgray;
+}
+
 .btn {
     background-image: linear-gradient(to right, mediumpurple, midnightblue);
     color: white;
@@ -99,6 +103,13 @@ input {
     border: solid 2px black;
     padding: 30px 15px;
     margin-bottom: 20px;
+}
+
+.current-conditions .uvi span {
+    background-color: green;
+    color: white;
+    padding: 5px;
+    border-radius: 3px;
 }
 
 .future-conditions {

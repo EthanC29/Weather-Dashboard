@@ -17,6 +17,7 @@ $(document).ready(function () {
             }
             $("#search-history").html(loopSearchEl);
         }
+        return searchHistory;
     };
     appendSearchHistory();
     
@@ -44,7 +45,7 @@ $(document).ready(function () {
                 <p class="temp" id="temp-` + i + `">Avg. Temp:  ` + singleDayData.temp + `° F</p>
                 <p class="wind" id="wind-` + i + `">Wind:  ` + singleDayData.wind + ` MPH</p>
                 <p class="humid" id="humid-` + i + `">Humidity:  ` + singleDayData.humidity + `%</p>
-                <p class="uvi" id="uvi-` + i + `">UV Index:  ` + singleDayData.uvindex + `</p>`;
+                <p class="uvi" id="uvi-` + i + `">UV Index:  <span>` + singleDayData.uvindex + `</span></p>`;
 
                 $('.current-conditions').append(singleHtml);
 
@@ -97,7 +98,7 @@ $(document).ready(function () {
                     "humidity": data.daily[i].humidity,
                     "uvindex": data.daily[i].uvi
                 }
-                
+
             }
         
             var cityName = city;
@@ -167,27 +168,34 @@ $(document).ready(function () {
     }
     
 
-    
-    
-
-
-
     $(".btn").click(function() {
 
         var searchTerm = $("#search-bar").val();
+        $("#search-bar").val("");
 
         getLatLon(searchTerm);
 
     });
 
-    $('.previous-search-result').each(function () {
-        var $this = $(this);
-        $this.on("click", function () {
-            var resulting = $this.text();
-            getLatLon(resulting);
-        });
-    });
 
+    const TIMEOUT_MS = 1000
+    let keepGoing = true;
+    function replayReplay() {
+
+        $('.previous-search-result').each(function () {
+            var $this = $(this);
+            $this.on("click", function () {
+                var resulting = $this.text();
+                getLatLon(resulting);
+            });
+        });
+
+        if (keepGoing) {
+            setTimeout(replayReplay, TIMEOUT_MS);
+        }
+    }
+
+    replayReplay();
 
 });
 
